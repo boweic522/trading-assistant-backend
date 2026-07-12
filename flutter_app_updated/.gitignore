@@ -1,4 +1,0 @@
-build/
-.flutter-plugins
-.dart_tool/
-pubspec.lock
