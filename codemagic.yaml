@@ -3,11 +3,12 @@ workflows:
     name: iOS Build
     instance_type: mac_mini_m2
     scripts:
-      - name: Initialize Flutter iOS project
+      - name: Create Flutter project structure if needed
         script: |
           cd flutter_app_updated
-          flutter clean
+          # Initialize iOS configuration
           flutter pub get
+          flutter clean
       - name: Build iOS app
         script: |
           cd flutter_app_updated
