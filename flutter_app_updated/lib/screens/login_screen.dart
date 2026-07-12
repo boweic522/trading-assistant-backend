@@ -5,17 +5,13 @@ import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'https://www.googleapis.com/auth/calendar',
-      'https://www.googleapis.com/auth/gmail.readonly',
-    ],
+    scopes: ['https://www.googleapis.com/auth/calendar'],
   );
   bool _isLoading = false;
 
@@ -25,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final account = await _googleSignIn.signIn();
       if (account != null) {
         final auth = await account.authentication;
-        final userId = await ApiClient.googleLogin(auth.accessToken ?? '');
+        await ApiClient.googleLogin(auth.accessToken ?? '');
         if (mounted) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (_) => const HomeScreen()),
@@ -34,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('登入失敗: $e')),
+        SnackBar(content: Text('Login failed: $e')),
       );
     } finally {
       setState(() => _isLoading = false);
@@ -50,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ? const CircularProgressIndicator()
             : ElevatedButton(
                 onPressed: _handleGoogleLogin,
-                child: const Text('使用 Google 帳號登入'),
+                child: const Text('Use Google Account'),
               ),
       ),
     );
